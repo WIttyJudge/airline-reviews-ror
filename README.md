@@ -4,6 +4,19 @@
 2. rails generate rspec:install
 3. gem 'rack-cors'
 
+```
+$ bundle install
+```
+
+Create database before db:migrate
+
+```
+psql postgres://username:password@localhost:5432
+
+create database airline_dev;
+create database airline_test;
+```
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
