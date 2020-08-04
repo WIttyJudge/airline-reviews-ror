@@ -12,5 +12,18 @@
 class Airline < ApplicationRecord
 	has_many :reviews
 
-	validates :name, :image_url, presence: true
+  validates :name, :image_url, presence: true
+  
+  before_create :name_to_title, :slugify
+  
+  private
+
+  def name_to_title
+    self.name = name.titleize
+  end
+
+  def slugify
+    self.slug = name.parameterize
+  end
+
 end
