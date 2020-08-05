@@ -17,6 +17,27 @@ create database airline_dev;
 create database airline_test;
 ```
 
+**Error with graphiql-rails**
+
+1.  Add inside development
+    ```
+    gem "graphiql-rails"
+    ```
+2.  Create app/assets/config/manifest.js and add:
+    ```
+    //= link graphiql/rails/application.css
+    //= link graphiql/rails/application.js
+    ```
+3.  mkdir -p app/assets/config && touch app/assets/config/manifest.js
+4.  And create a _config/initializers/assets.rb_ with:
+
+    ```
+    # config/initializers/assets.rb
+    if Rails.env.development?
+      Rails.application.config.assets.precompile += %w[graphiql/rails/application.js graphiql/rails/application.css]
+    end
+    ```
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
@@ -39,3 +60,10 @@ Things you may want to cover:
 - Deployment instructions
 
 - ...
+
+````
+
+```
+
+```
+````
