@@ -10,11 +10,15 @@
 #  updated_at :datetime         not null
 #
 class Airline < ApplicationRecord
-	has_many :reviews
+	has_many :reviews, dependent: :destroy
 
   validates :name, :image_url, presence: true
   
   before_create :name_to_title, :slugify
+
+  def average_score
+    reviews.present? ? reviews.average(:score).round(2).to_f : 0
+  end
   
   private
 
