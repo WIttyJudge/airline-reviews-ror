@@ -16,9 +16,9 @@ ActiveRecord::Schema.define(version: 2020_08_02_125519) do
   enable_extension "plpgsql"
 
   create_table "airlines", force: :cascade do |t|
-    t.string "name"
-    t.text "image_url"
-    t.string "slug"
+    t.string "name", null: false
+    t.text "image_url", null: false
+    t.string "slug", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
