@@ -7,12 +7,18 @@ module Api
         render json: airline
       end
 
-      private 
-      
-      def airlines_params
-        param.require(:airline).permit(:name, :image_url)
+      def show
+        airline = Airline.find_by(slug: params[:slug])
+        if airline
+          render json: airline
+        end
       end
 
+      private
+
+      def airline_params
+        params.require(:airline).permit(:name, :image_url)
+      end
     end
   end
 end
