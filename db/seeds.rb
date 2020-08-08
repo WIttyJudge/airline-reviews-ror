@@ -9,11 +9,15 @@
 airline = Airline.create([
 	{
 		:name => "First Airline",
-		:image_url => "https://test.com",
+		:image_url => "https://images.unsplash.com/photo-1532882191016-9133c6d82083?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=360&q=80",
 	},
 	{
-		:name => "second Airline",
-		:image_url => "https://testasd.com",
+		:name => "Second Airline",
+		:image_url => "https://images.unsplash.com/photo-1521899922280-eed2230d7be8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=360&q=80",
+  },
+  {
+		:name => "Third Airline",
+		:image_url => "https://images.unsplash.com/photo-1583013412875-a1ca0d6458d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1538&q=80",
 	}
 ])
 
@@ -27,13 +31,13 @@ review = Review.create([
 		:airline_id => airline.first.id
 	},
 	{
-		:title => "second title",
+		:title => "Second title",
 		:description => "second description",
 		:score => 4,
 		:airline_id => airline.first.id
 	},
 	{
-		:title => "third title",
+		:title => "Third title",
 		:description => "third description",
 		:score => 5,
 		:airline_id => airline.last.id
