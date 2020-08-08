@@ -40,5 +40,41 @@ RSpec.describe Airline, type: :model do
       end
     end
 
+    context "class_methods" do 
+      context "average_score" do
+        it "airline average score is correct" do
+          airline = Airline.create(:name => "test", :image_url => "https://test.com")
+          reviews = Review.create([
+            {
+              :title => "test title",
+              :description => "first description",
+              :score => 2,
+              :airline_id => airline.id
+            },
+            {
+              :title => "test title",
+              :description => "first description",
+              :score => 5,
+              :airline_id => airline.id
+            },
+            {
+              :title => "test title",
+              :description => "first description",
+              :score => 1,
+              :airline_id => airline.id
+            },
+          ])
+
+          # (2+5+1) / 3
+          expect(airline.average_score).to eq(2.67)
+        end
+
+        it "if we dont have any reviews, return 0" do 
+          airline = Airline.create(:name => "test", :image_url => "https://test.com")
+          expect(airline.average_score).to eq(0)
+        end
+      end
+    end
+
   end
 end
