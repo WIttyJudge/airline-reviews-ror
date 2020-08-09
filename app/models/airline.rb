@@ -2,17 +2,18 @@
 #
 # Table name: airlines
 #
-#  id         :integer          not null, primary key
-#  name       :string
-#  image_url  :text
-#  slug       :string
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  image_url  :text             not null
+#  slug       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 class Airline < ApplicationRecord
 	has_many :reviews, dependent: :destroy
 
-  validates :name, :image_url, presence: true
+  validates_presence_of :name, :image_url
+  validates_uniqueness_of :name, message: "A company with this name already exists"
   
   before_create :name_to_title, :slugify
 
