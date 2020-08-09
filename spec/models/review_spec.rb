@@ -35,7 +35,7 @@ RSpec.describe Review, type: :model do
         expect(@review.valid?).to be(false)
         expect(@review.errors[:description]).to eq(["can't be blank"])
       end
-            
+
       it "score is required" do
         @review.score = nil
         expect(@review.valid?).to be(false)
@@ -43,12 +43,23 @@ RSpec.describe Review, type: :model do
       end
     end
 
-    # FIXME: score не переопределяется. Должна быть ошибка
     context "validates_numericality_of" do
       it "score cannot be greater than 5" do
         @review.score = 10
-        # expect(@review).to be(false)
-        expect(@review.errors).to eq([])
+        expect(@review.valid?).to be(false)
+        expect(@review.errors[:score]).to eq(["must be less than or equal to 5"])
+      end
+
+      it "score cannot be equal to 0" do
+        @review.score = 0
+        expect(@review.valid?).to be(false)
+        expect(@review.errors[:score]).to eq(["must be greater than 0"])
+      end
+
+      it "score cannot be float type" do 
+        @review.score = 1.4
+        expect(@review.valid?).to be(false)
+        expect(@review.errors[:score]).to eq(["must be an integer"])
       end
     end
   end
