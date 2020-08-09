@@ -2,41 +2,51 @@
 #
 # Table name: airlines
 #
-#  id         :integer          not null, primary key
-#  name       :string
-#  image_url  :text
-#  slug       :string
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  image_url  :text             not null
+#  slug       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 require 'rails_helper'
 
 RSpec.describe Airline, type: :model do
-  context "validates" do
+  context "validates_presence_of" do
     before do
       @airline = Airline.create(:name => "https://test.com", :image_url => "test")
+    end
+
+    it "valid" do
+      expect(@airline.valid?).to be(true)
     end
 
     it "name is required" do
       @airline.name = ""
       expect(@airline.valid?).to be(false)
-      expect(@airline.errors.messages[:name]).to eq ["can't be blank"]
+      expect(@airline.errors[:name]).to eq ["can't be blank"]
     end
 
     it "image_url is required" do
       @airline.image_url = ""
       expect(@airline.valid?).to be(false)
-      expect(@airline.errors.messages[:image_url]).to eq ["can't be blank"]
-    end
-    
-    it "all records are not required" do
-      expect(@airline.valid?).to be(true)
+      expect(@airline.errors[:image_url]).to eq ["can't be blank"]
     end
 
     context "before_create" do
       it "name_to_title" do
         airline = Airline.create(:name => "test:test TesT", :image_url => "https://test.com")
         expect(airline.name).to eq("Test:Test Tes T")
+      end
+    end
+
+    context "validates_uniqueness_of" do
+      it "name must be unique" do
+        first_airline = Airline.create(:name => "test", :image_url => "https://test.com")
+        second_airline = Airline.create(:name => "test", :image_url => "https://test.com")
+
+        expect(second_airline.valid?).to be(false)
+        expect(second_airline.errors).to eq(["A company with this name already exists"])
       end
     end
 
