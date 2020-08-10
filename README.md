@@ -8,15 +8,6 @@
 $ bundle install
 ```
 
-Create database before db:migrate
-
-```
-psql postgres://username:password@localhost:5432
-
-create database airline_dev;
-create database airline_test;
-```
-
 **Error with graphiql-rails**
 
 1.  Add inside development
@@ -28,8 +19,8 @@ create database airline_test;
     //= link graphiql/rails/application.css
     //= link graphiql/rails/application.js
     ```
-3.  mkdir -p app/assets/config && touch app/assets/config/manifest.js
-4.  And create a _config/initializers/assets.rb_ with:
+
+3.  And create a _config/initializers/assets.rb_ with:
 
     ```
     # config/initializers/assets.rb
@@ -38,32 +29,95 @@ create database airline_test;
     end
     ```
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## System Dependencies
+
+## Database initialization
+
+```
+rake db:{create,migrate,seed}
+```
+
+Database name:
+- airline_dev
+- airline_test
+
+## GraphQL
+
+### Queries
+
+Get all airlines: 
+
+```
+query {
+  airlines {
+    id
+    name
+    imageUrl
+    slug
+    averageScore
+    createdAt
+    updatedAt
+    reviews {
+      id
+      title
+      description
+    }
+  }
+}
+```
+
+Get one airline by slug:
+
+```
+query {
+  airline(slug: "airline-slug") {
+    id
+    name
+    imageUrl
+    slug
+    averageScore
+    createdAt
+    updatedAt
+    reviews {
+      id
+      title
+      description
+    }
+  }
+}
+```
+
+### Mutations
+
+Create review: 
+
+```
+mutation {
+  createReview(input: {
+    title: "test"
+    description: "test"
+    score: 5
+    airlineId: 3
+  }){
+    review {
+      id
+    }
+    errors
+  }
+}
+```
+
+
+## How to run test suite
+
+```
+bundle exec rspec spec/
+```
+
 
 Things you may want to cover:
 
 - Ruby version
 
-- System dependencies
 
 - Configuration
-
-- Database creation
-
-- Database initialization
-
-- How to run the test suite
-
-- Services (job queues, cache servers, search engines, etc.)
-
-- Deployment instructions
-
-- ...
-
-````
-
-```
-
-```
-````
