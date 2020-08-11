@@ -13,10 +13,10 @@
 require 'rails_helper'
 
 RSpec.describe Review, type: :model do
-  context "validate" do
+  describe "validation" do
     before do
       airline = Airline.create(:name => "test", :image_url => "test")
-      @review = Review.create(:title => "test", :description => "test", :score => 5, :airline_id => airline.id)
+      @review = described_class.create(:title => "test", :description => "test", :score => 5, :airline_id => airline.id)
     end
     
     it "valid" do
