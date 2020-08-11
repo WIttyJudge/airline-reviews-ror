@@ -12,9 +12,11 @@
 require 'rails_helper'
 
 RSpec.describe Airline, type: :model do
-  context "validates_presence_of" do
+  let(:params) { {name: "test name", image_url: "https://test.com"} }
+
+  describe "validates_presence_of" do
     before do
-      @airline = Airline.create(:name => "https://test.com", :image_url => "test")
+      @airline = described_class.create(params)
     end
 
     it "valid" do
@@ -34,31 +36,32 @@ RSpec.describe Airline, type: :model do
     end
   end
 
-  context "validates_uniqueness_of" do
+  describe "validates_uniqueness_of" do
     it "name must be unique" do
-      first_airline = Airline.create(:name => "test", :image_url => "https://test.com")
-      second_airline = Airline.create(:name => "test", :image_url => "https://test.com")
+      first_airline = described_class.create(params)
+      second_airline = described_class.create(params)
 
       expect(second_airline.valid?).to be(false)
       expect(second_airline.errors[:name]).to eq(["A company with this name already exists"])
     end
   end
 
-  context "before_create" do
+  describe "before_create" do
     it "name_to_title" do
-      airline = Airline.create(:name => "test:test TesT", :image_url => "https://test.com")
+      airline = described_class.create(:name => "test:test TesT", :image_url => "https://test.com")
       expect(airline.name).to eq("Test:Test Tes T")
     end
 
+    # TODO: Write test
     it "slugify" do
       expect(true).to be(true)
     end
   end
 
-  context "class_methods" do 
+  describe "class_methods" do 
     context "average_score" do
       it "the airline average score is correct" do
-        airline = Airline.create(:name => "test", :image_url => "https://test.com")
+        airline = described_class.create(params)
         reviews = Review.create([
           {
             :title => "test title",
@@ -85,7 +88,7 @@ RSpec.describe Airline, type: :model do
       end
 
       it "if we dont have any reviews, it will return 0" do 
-        airline = Airline.create(:name => "test", :image_url => "https://test.com")
+        airline = described_class.create(params)
         expect(airline.average_score).to eq(0)
       end
     end
