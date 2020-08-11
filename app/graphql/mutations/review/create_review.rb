@@ -1,5 +1,7 @@
 module Mutations 
-  class CreateReview < BaseMutation
+  module Review
+  
+    class CreateReview < BaseMutation
     # arguments passed to the resolve method
     argument :title, String, required: true
     argument :description, String, required: true
@@ -33,5 +35,7 @@ module Mutations
       end
 
     end
+  end
+
   end
 end
