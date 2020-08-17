@@ -2,40 +2,40 @@ module Mutations
   module Review
   
     class CreateReview < BaseMutation
-    # arguments passed to the resolve method
-    argument :title, String, required: true
-    argument :description, String, required: true
-    argument :score, Integer, required: true
-    argument :airline_id, Integer, required: true
+      # arguments passed to the resolve method
+      argument :title, String, required: true
+      argument :description, String, required: true
+      argument :score, Integer, required: true
+      argument :airline_id, Integer, required: true
 
-    field :review, Types::ReviewType, null: true
-    field :errors, [String], null: false
+      field :review, Types::ReviewType, null: true
+      field :errors, [String], null: false
 
-    # return type from the mutation
-    # type Types::AirlineType
+      # return type from the mutation
+      # type Types::AirlineType
 
-    def resolve(title: nil, description: nil, score: nil, airline_id: nil)
-      review = Review.create(
-        :title => title,
-        :description => description,
-        :score => score,
-        :airline_id => airline_id
-      )
+      def resolve(title: nil, description: nil, score: nil, airline_id: nil)
+        review = Review.create(
+          :title => title,
+          :description => description,
+          :score => score,
+          :airline_id => airline_id
+        )
 
-      if review.save
-        {
-          review: review,
-          errors: []
-        }
-      else
-        {
-          review: nil,
-          errors: review.errors.full_messages
-        }
+        if review.save
+          {
+            review: review,
+            errors: []
+          }
+        else
+          {
+            review: nil,
+            errors: review.errors.full_messages
+          }
+        end
+
       end
-
     end
-  end
 
   end
 end
