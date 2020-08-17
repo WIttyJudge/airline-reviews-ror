@@ -12,6 +12,6 @@
 FactoryBot.define do
   factory :airline do
     name { 'first airline' }
-    image_url { 'https://images.unsplash.com/photo-1532882191016-9133c6d82083?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=360&q=80' }
+    image_url { 'https://test.com/photo' }
   end
 end
