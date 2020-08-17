@@ -10,9 +10,12 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-class Review < ApplicationRecord
-  belongs_to :airline
-  
-  validates_presence_of :title, :description, :score
-  validates_numericality_of :score, only_integer: true, greater_than: 0, less_than_or_equal_to: 5
+FactoryBot.define do
+  factory :review do
+    title { "First Title" }
+    description { "First description" }
+    score { 4 }
+    
+    association :airline, factory: :airline
+  end
 end
