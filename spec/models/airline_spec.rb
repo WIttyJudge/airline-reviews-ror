@@ -12,8 +12,20 @@
 require 'rails_helper'
 
 RSpec.describe Airline, type: :model do
-  it "it has valid factory" do
-    expect(create(:airline).save).to be_truthy
+  describe "testing factory" do
+    let(:airline) { create(:airline) }
+
+    it "valid factory" do
+      expect(airline.save).to be_truthy
+    end
+
+    it "factory has a name" do
+      expect(airline.name).to eq("First Airline")
+    end
+
+    it "factory has a image_url" do
+      expect(airline.image_url).to eq("https://test.com/photo")
+    end
   end
 
   describe ".validates_presence_of" do
