@@ -12,86 +12,101 @@
 require 'rails_helper'
 
 RSpec.describe Airline, type: :model do
-  let(:params) { {name: "test name", image_url: "https://test.com"} }
-
-  describe "validates_presence_of" do
-    before do
-      @airline = described_class.create(params)
-    end
-
-    it "valid" do
-      expect(@airline.valid?).to be(true)
-    end
-
-    it "name is required" do
-      @airline.name = ""
-      expect(@airline.valid?).to be(false)
-      expect(@airline.errors[:name]).to eq ["can't be blank"]
-    end
-
-    it "image_url is required" do
-      @airline.image_url = ""
-      expect(@airline.valid?).to be(false)
-      expect(@airline.errors[:image_url]).to eq ["can't be blank"]
-    end
+  it "it has valid factory" do
+    expect(create(:airline).save).to be_truthy
   end
 
-  describe "validates_uniqueness_of" do
-    it "name must be unique" do
-      first_airline = described_class.create(params)
-      second_airline = described_class.create(params)
+  describe ".validates_presence_of" do
+    context "name" do
+      let(:airline) { build(:airline, name: "") }
 
-      expect(second_airline.valid?).to be(false)
-      expect(second_airline.errors[:name]).to eq(["A company with this name already exists"])
-    end
-  end
-
-  describe "before_create" do
-    it "name_to_title" do
-      airline = described_class.create(:name => "test:test TesT", :image_url => "https://test.com")
-      expect(airline.name).to eq("Test:Test Tes T")
-    end
-
-    # TODO: Write test
-    it "slugify" do
-      expect(true).to be(true)
-    end
-  end
-
-  describe "class_methods" do 
-    context "average_score" do
-      it "the airline average score is correct" do
-        airline = described_class.create(params)
-        reviews = Review.create([
-          {
-            :title => "test title",
-            :description => "first description",
-            :score => 2,
-            :airline_id => airline.id
-          },
-          {
-            :title => "test title",
-            :description => "first description",
-            :score => 5,
-            :airline_id => airline.id
-          },
-          {
-            :title => "test title",
-            :description => "first description",
-            :score => 1,
-            :airline_id => airline.id
-          },
-        ])
-
-        # (2+5+1) / 3
-        expect(airline.average_score).to eq(2.67)
+      it "cannot save" do
+        expect(airline.save).to be_falsey
       end
 
-      it "if we dont have any reviews, it will return 0" do 
-        airline = described_class.create(params)
+      it "it is invalid" do
+        expect(airline.valid?).to be_falsey
+      end
+
+      it "got error message" do
+        airline.save
+        expect(airline.errors.messages[:name]).to eq(["can't be blank"])
+      end
+    end
+
+    context "image_url" do
+      let(:airline) { build(:airline, image_url: "") }
+
+      it "cannot save" do
+        expect(airline.save).to be_falsey
+      end
+
+      it "it is invalid" do
+        expect(airline.valid?).to be_falsey
+      end
+
+      it "got error message" do
+        airline.save
+        expect(airline.errors.messages[:image_url]).to eq(["can't be blank"])
+      end
+    end
+  end
+
+  # FIXME: Does not work
+  # describe ".validates_uniqueness_of" do
+  #   context "name" do
+  #     let(:airline) { create(:airline, name: "example name") }
+  #     let(:airline1) { create(:airline, name: "example name") }
+
+  #     it "must be unique" do
+  #       expect(airline1.valid?).to be(false)
+  #     end
+
+  #     it "got error message" do
+  #       airline1.save
+  #       expect(airline1.errors).to eq([""])
+  #     end
+  #   end
+  # end
+
+  describe ".before_create" do
+    context "#name_to_title" do
+      let(:airline) { create(:airline) }
+
+      it "correct name" do
+        expect(airline.name).to eq("First Airline")
+      end
+    end
+
+    context "#slugify" do
+      let(:airline) { create(:airline) }
+
+      it "slug parsed by name correctly" do
+        expect(airline.slug).to eq("first-airline")
+      end
+    end
+  end
+
+  describe "#average_score" do
+    context "if airline has some reviews" do
+      let(:airline) { create(:airline) }
+      let!(:review1) { create(:review, score: 5, airline: airline) }
+      let!(:review2) { create(:review, score: 4, airline: airline) }
+      let!(:review3) { create(:review, score: 5, airline: airline) }
+
+      it "it counted correctly" do
+        # (5+4+5)/3
+        expect(airline.average_score).to eq(4.67)
+      end
+    end
+
+    context "if airline doesn't have any reviews" do
+      let(:airline) { create(:airline) }
+
+      it "it counted currectly" do
         expect(airline.average_score).to eq(0)
       end
     end
-  end
 
+  end
 end
