@@ -15,5 +15,4 @@ class Review < ApplicationRecord
   
   validates_presence_of :title, :description, :score
   validates_numericality_of :score, only_integer: true, greater_than: 0, less_than_or_equal_to: 5
-  validates_associated :airline
 end
