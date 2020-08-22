@@ -20,11 +20,11 @@ RSpec.describe Airline, type: :model do
     end
 
     it "factory has a name" do
-      expect(airline.name).to eq("First Airline")
+      expect(airline.name).not_to be nil
     end
 
     it "factory has a image_url" do
-      expect(airline.image_url).to eq("https://test.com/photo")
+      expect(airline.image_url).not_to be nil
     end
   end
 
