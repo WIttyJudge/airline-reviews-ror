@@ -9,19 +9,19 @@ RSpec.describe Review, type: :model do
     end
 
     it "factory has a title" do
-      expect(review.title).to eq("First Title")
+      expect(review.title).not_to be nil
     end
 
     it "factory has a description" do
-      expect(review.description).to eq("First description")
+      expect(review.description).not_to be nil
     end
 
     it "factory has a score" do
-      expect(review.score).to eq(4)
+      expect(review.score).not_to be nil
     end
 
     it "factory assosiate with airline" do
-      expect(review.airline.name).to eq("First Airline")
+      expect(review.airline.name).not_to be nil
     end
   end
 
