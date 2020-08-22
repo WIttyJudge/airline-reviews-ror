@@ -16,6 +16,7 @@ FactoryBot.define do
     description { "First description" }
     score { 4 }
     
-    association :airline, factory: :airline
+    # association :airline, factory: :airline
+    airline 
   end
 end
