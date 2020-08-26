@@ -11,7 +11,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Airline, type: :model do
+RSpec.describe Airline, :type => :model do
   describe "testing factory" do
     let(:airline) { create(:airline) }
 
@@ -64,22 +64,25 @@ RSpec.describe Airline, type: :model do
     end
   end
 
-  # FIXME: Does not work
-  # describe ".validates_uniqueness_of" do
-  #   context "name" do
-  #     let(:airline) { create(:airline, name: "example name") }
-  #     let(:airline1) { create(:airline, name: "example name") }
+  describe ".validates_uniqueness_of" do
+    context "name" do
+      let(:airline) { create(:airline, name: "example name") }
+      let(:airline1) { create(:airline, name: "example name") }
 
-  #     it "must be unique" do
-  #       expect(airline1.valid?).to be(false)
-  #     end
+      it "cannot create" do
+        expect(airline1.save).to be_falsey
+      end
 
-  #     it "got error message" do
-  #       airline1.save
-  #       expect(airline1.errors).to eq([""])
-  #     end
-  #   end
-  # end
+      it "it is not valid" do
+        expect(airline1.valid?).to be_falsey
+      end
+
+      it "got error message" do
+        airline1.save
+        expect(airline1.errors.messages[:name]).to eq(["A company with this name already exists"])
+      end
+    end
+  end
 
   describe ".before_create" do
     context "#name_to_title" do
