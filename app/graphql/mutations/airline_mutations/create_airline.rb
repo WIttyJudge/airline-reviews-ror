@@ -1,5 +1,5 @@
 module Mutations
-  module Airline
+  module AirlineMutations
 
     class CreateAirline < BaseMutation
       argument :name, String, required: true
@@ -8,7 +8,7 @@ module Mutations
       field :airline, Types::AirlineType, null: true
       field :errors, String, null: false 
 
-      def resolve(name: nil, image_url: nil)
+      def resolve(name:, image_url:)
         airline = Airline.create(
           name: name,
           image_url: image_url
@@ -27,6 +27,6 @@ module Mutations
         end
       end
     end
-    
+
   end
 end
