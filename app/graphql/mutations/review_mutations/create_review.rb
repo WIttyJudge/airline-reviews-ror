@@ -1,5 +1,5 @@
 module Mutations 
-  module Review
+  module ReviewMutations
   
     class CreateReview < BaseMutation
       # arguments passed to the resolve method
