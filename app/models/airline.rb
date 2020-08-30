@@ -16,6 +16,7 @@ class Airline < ApplicationRecord
   validates_uniqueness_of :name, message: "A company with this name already exists"
   
   before_create :name_to_title, :slugify
+  before_update :name_to_title, :slugify
 
   def average_score
     reviews.present? ? reviews.average(:score).round(2).to_f : 0

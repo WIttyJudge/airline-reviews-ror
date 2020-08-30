@@ -14,7 +14,7 @@ module Mutations
       # return type from the mutation
       # type Types::AirlineType
 
-      def resolve(title: nil, description: nil, score: nil, airline_id: nil)
+      def resolve(title:, description:, score:, airline_id: )
         review = Review.create(
           :title => title,
           :description => description,
